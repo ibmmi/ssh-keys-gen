@@ -2,18 +2,18 @@
 
 NAME=${NAME:-myKey}
 
-PKFile="/output/${NAME}.private.key.pem"
-PB1File="/output/${NAME}.public.key.pem"
-PB2File="/output/${NAME}.public.key.ssh-rsa"
+Folder="/output/${NAME}"
 
-echo "Generating key ${NAME} in file ${PKFile}"
+echo "Creating Folder ${Folder}..."
 
-openssl genrsa -aes256 -out "${PKFile}" 4096
+mkdir -p "${Folder}" || echo "Warn: Error creating folder $?"
 
-echo "Extracting public key ${NAME} in file ${PB1File}"
+cd "${Folder}" || exit 1
 
-openssl rsa -in "${PKFile}" -pubout > "${PB1File}"
+echo "Generating key ${NAME} in file ./id_rsa"
 
-echo "Extracting public key ${NAME} using ssh-rsa format in file ${PB2File}"
+ssh-keygen -t rsa -b 4096 -C "${NAME}" -f ./id_rsa
 
-ssh-keygen -i -mPKCS8 -f "${PB1File}" > "${PB2File}"
+echo "Converting key to ppk..."
+
+puttygen ./id_rsa -o ./id_rsa.ppk

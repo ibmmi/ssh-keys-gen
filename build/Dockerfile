@@ -1,3 +1,3 @@
 FROM alpine
 
-RUN apk add --update --no-cache openssl openssh-keygen
+RUN apk add --update --no-cache openssh-keygen putty
