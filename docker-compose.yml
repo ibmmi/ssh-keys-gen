@@ -1,0 +1,12 @@
+services:
+  gen:
+    build: ./build
+    image: ssh-keygen-helper
+    tty: true
+    volumes:
+      - ./output:/output
+      - ./scripts:/scripts
+    environment:
+      - NAME
+    entrypoint: /scripts/gen.sh
+
